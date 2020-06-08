@@ -30,6 +30,11 @@ android {
     dataBinding {
         enabled = true
     }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
@@ -47,11 +52,11 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxkotlin:3.0.0'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 
-    implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+//    implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'
+//    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+//    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+//    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+//    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
 
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"

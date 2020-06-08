@@ -5,6 +5,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val wallpaperModule = module {
-    single { WallpaperRepository() }
+    single { WallpaperRepository(get()) }
     viewModel { WallpaperViewModel(get()) }
 }
