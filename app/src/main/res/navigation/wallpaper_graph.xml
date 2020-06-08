@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/wallpaper_graph"
+    app:startDestination="@id/wallpaperMainFragment">
+
+    <fragment
+        android:id="@+id/imagesFragment"
+        android:name="cn.xhu.www.setting.ui.wallpaper.ImagesFragment"
+        android:label="ImagesFragment">
+        <action
+            android:id="@+id/action_imagesFragment_to_staticWallpaperFragment"
+            app:destination="@id/staticWallpaperFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videosFragment"
+        android:name="cn.xhu.www.setting.ui.wallpaper.VideosFragment"
+        android:label="VideosFragment">
+        <action
+            android:id="@+id/action_videosFragment_to_liveWallpaperFragment2"
+            app:destination="@id/liveWallpaperFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/liveWallpaperFragment"
+        android:name="cn.xhu.www.setting.ui.wallpaper.LiveWallpaperFragment"
+        android:label="LiveWallpaperFragment" />
+    <fragment
+        android:id="@+id/wallpaperMainFragment"
+        android:name="cn.xhu.www.setting.ui.wallpaper.WallpaperMainFragment"
+        android:label="WallpaperMainFragment">
+        <action
+            android:id="@+id/action_wallpaperMainFragment_to_imagesFragment"
+            app:destination="@id/imagesFragment" />
+        <action
+            android:id="@+id/action_wallpaperMainFragment_to_videosFragment"
+            app:destination="@id/videosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/staticWallpaperFragment"
+        android:name="cn.xhu.www.setting.ui.wallpaper.StaticWallpaperFragment"
+        android:label="StaticWallpaperFragment" />
+</navigation>
