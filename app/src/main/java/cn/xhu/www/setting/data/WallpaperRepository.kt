@@ -5,25 +5,24 @@ import android.content.Context
 import android.net.Uri
 import android.provider.BaseColumns._ID
 import android.provider.MediaStore
-import android.provider.MediaStore.MediaColumns.DATE_TAKEN
+import android.provider.MediaStore.MediaColumns.DATE_ADDED
 import androidx.annotation.IntRange
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import java.lang.Exception
 import java.lang.NullPointerException
 
 class WallpaperRepository(private val context: Context) {
 
     fun getImages(
-        @IntRange(from = 0) pageSize: Int = 40,
-        @IntRange(from = 0) page: Int
+        @IntRange(from = 1) pageSize: Int = 40,
+        @IntRange(from = 1) page: Int
     ): Single<List<Uri>> {
-        return queryWallpaperData(pageSize, page)
+        return queryWallpaperData(pageSize, page, false)
     }
 
     fun getVideos(
-        @IntRange(from = 0) pageSize: Int = 40,
-        @IntRange(from = 0) page: Int
+        @IntRange(from = 1) pageSize: Int = 40,
+        @IntRange(from = 1) page: Int
     ): Single<List<Uri>> {
         return queryWallpaperData(pageSize, page, true)
     }
@@ -31,17 +30,17 @@ class WallpaperRepository(private val context: Context) {
     private fun queryWallpaperData(
         pageSize: Int,
         page: Int,
-        liveWallpaper: Boolean = false
+        liveWallpaper: Boolean
     ): Single<List<Uri>> {
         val mediaUrl: Uri = if (liveWallpaper) {
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         } else {
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         }
-        val order = "$DATE_TAKEN DESC limit $pageSize offset ${pageSize * page}"
+        val order = " $DATE_ADDED DESC limit $pageSize offset ${pageSize * page}"
 
         return context.contentResolver.query(
-            mediaUrl, arrayOf(_ID), null, null, order
+            mediaUrl, null, null, null, order
         )?.run {
             Observable.create<Uri> {
                 try {

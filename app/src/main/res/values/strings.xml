@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Setting</string>
+    <string name="video">视频</string>
+    <string name="image">图片</string>
+    <string name="storage">内部存储</string>
+    <string name="transparent_wallpaper">透明壁纸</string>
 </resources>
