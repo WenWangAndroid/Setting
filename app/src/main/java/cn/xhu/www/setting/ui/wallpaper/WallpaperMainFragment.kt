@@ -77,7 +77,7 @@ class WallpaperMainFragment : BaseFragment() {
                 logInfo("-------${list.size}")
                 val wallpaperAdapter = WallpaperAdapter().apply { items = list }
                 binding.recyclerView.apply {
-                    layoutManager = GridLayoutManager(context,2)
+                    layoutManager = GridLayoutManager(context,4)
                     addItemDecoration(RecyclerViewItemDecoration(context))
                     adapter = wallpaperAdapter
                 }
