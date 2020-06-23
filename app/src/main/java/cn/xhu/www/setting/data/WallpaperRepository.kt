@@ -9,31 +9,32 @@ import android.provider.MediaStore.MediaColumns.DATE_ADDED
 import androidx.annotation.IntRange
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import java.lang.NullPointerException
+
+private const val PAGE_SIZE = 100
 
 class WallpaperRepository(private val context: Context) {
 
     fun getImages(
-        @IntRange(from = 1) pageSize: Int = 40,
-        @IntRange(from = 1) page: Int
+        @IntRange(from = 1) pageSize: Int = PAGE_SIZE,
+        @IntRange(from = 0) page: Int
     ): Single<List<Uri>> {
         return queryWallpaperData(pageSize, page, false)
     }
 
     fun getVideos(
-        @IntRange(from = 1) pageSize: Int = 40,
-        @IntRange(from = 1) page: Int
+        @IntRange(from = 1) pageSize: Int = PAGE_SIZE,
+        @IntRange(from = 0) page: Int
     ): Single<List<Uri>> {
         return queryWallpaperData(pageSize, page, true)
     }
 
     private fun queryWallpaperData(
-        pageSize: Int,
-        page: Int,
+        @IntRange(from = 1) pageSize: Int,
+        @IntRange(from = 0) page: Int,
         liveWallpaper: Boolean
     ): Single<List<Uri>> {
         val mediaUrl: Uri = if (liveWallpaper) {
-            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI
         } else {
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         }

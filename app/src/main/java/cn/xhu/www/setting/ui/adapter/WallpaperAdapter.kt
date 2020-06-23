@@ -9,6 +9,8 @@ import cn.xhu.www.setting.databinding.WallpaperImageRecycleItemBinding
 import com.bumptech.glide.Glide
 
 class WallpaperAdapter : RecyclerView.Adapter<WallpaperAdapter.ViewHolder>() {
+    var itemClick: (file: Uri) -> Unit = {}
+
     var items: List<Uri> = ArrayList()
         set(value) {
             field = value
@@ -31,8 +33,8 @@ class WallpaperAdapter : RecyclerView.Adapter<WallpaperAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: WallpaperImageRecycleItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(imageUri: Uri) {
-//            binding.image = imageUri
             Glide.with(binding.imageView).load(imageUri).into(binding.imageView)
+            itemView.setOnClickListener { itemClick(imageUri) }
         }
     }
 }

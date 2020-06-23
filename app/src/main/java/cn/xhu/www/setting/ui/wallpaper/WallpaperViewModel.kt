@@ -1,59 +1,64 @@
 package cn.xhu.www.setting.ui.wallpaper
 
 import android.net.Uri
+import androidx.lifecycle.MutableLiveData
 import cn.xhu.www.setting.base.BaseViewModel
 import cn.xhu.www.setting.data.WallpaperRepository
 import cn.xhu.www.setting.utils.logInfo
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
+import cn.xhu.www.setting.utils.rx.async
+import cn.xhu.www.setting.utils.rx.status
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 class WallpaperViewModel(private val wallpaperRepository: WallpaperRepository) : BaseViewModel() {
     private var imagePage = 1
     private var videoPage = 1
 
-    fun getImages(): Single<List<Uri>> {
-        return wallpaperRepository.getImages(page = 1)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+    val items: MutableLiveData<List<Uri>> by lazy { MutableLiveData<List<Uri>>() }
+    val refreshing = MutableLiveData<Boolean>(false)
+
+    fun getImages() {
+        wallpaperRepository.getImages(page = 0)
+            .async()
+            .status(refreshing)
             .doOnSuccess { imagePage = 1 }
-//            .subscribeBy(
-//                onError = { e -> e.printStackTrace() },
-//                onSuccess = { list -> logInfo("-------onSuccess------${list.size}") }
-//            )
+            .subscribeBy(
+                onError = { e -> e.printStackTrace() },
+                onSuccess = { list -> items.value = list }
+            )
+            .bind()
     }
 
     fun getVideos() {
-        wallpaperRepository.getVideos(page = 1)
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+        wallpaperRepository.getVideos(page = 0)
+            .async()
+            .status(refreshing)
             .doOnSuccess { videoPage = 1 }
             .subscribeBy(
                 onError = { e -> e.printStackTrace() },
-                onSuccess = { list -> logInfo("-------onSuccess------${list.size}") }
+                onSuccess = { list -> items.value = list }
             )
+            .bind()
     }
 
     fun loadMoreImages() {
         wallpaperRepository.getImages(page = imagePage + 1)
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .async()
             .doOnSuccess { imagePage += 1 }
             .subscribeBy(
                 onError = { e -> e.printStackTrace() },
                 onSuccess = { list -> logInfo("-------onSuccess------${list.size}") }
             )
+            .bind()
     }
 
     fun loadMoreVideos() {
         wallpaperRepository.getVideos(page = videoPage + 1)
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .async()
             .doOnSuccess { videoPage += 1 }
             .subscribeBy(
                 onError = { e -> e.printStackTrace() },
                 onSuccess = { list -> logInfo("-------onSuccess------${list.size}") }
             )
+            .bind()
     }
 }
